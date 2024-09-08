@@ -1,14 +1,18 @@
 import Fastify from 'fastify';
 import { Pool } from 'pg';
 import { randomUUID } from 'crypto';
-
+//import { randomUUID } from 'crypto';
+//import jwt from 'jsonwebtoken';
+import bookRoutes from './routes/book.route';
+import userRoutes from './routes/user.route';
 const fastify = Fastify({ logger: true });
 
 fastify.get('/', async (request, reply) => {
   return { hello: 'world' };
 });
-
-async function testPostgres(pool: Pool) {
+fastify.register(userRoutes);
+fastify.register(bookRoutes);
+/*async function testPostgres(pool: Pool) {
   const id = randomUUID();
   const name = 'Satoshi';
   const email = 'Nakamoto';
@@ -32,10 +36,13 @@ async function createTables(pool: Pool) {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
-      email TEXT NOT NULL
+      email TEXT NOT NULL,
+      userName VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL
     );
+    
   `);
-}
+}*/
 
 async function bootstrap() {
   console.log('Bootstrapping...');
@@ -48,8 +55,8 @@ async function bootstrap() {
     connectionString: databaseUrl
   });
 
-  await createTables(pool);
-  await testPostgres(pool);
+  //await createTables(pool);
+  //await testPostgres(pool);
 }
 
 try {
