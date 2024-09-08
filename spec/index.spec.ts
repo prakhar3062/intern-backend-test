@@ -1,6 +1,6 @@
 import { test } from "bun:test";
-import './userRegistration.spec';
-import './addBook.spec';
+import './user.spec';
+import './Book.spec';
 
 
 
